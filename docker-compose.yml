@@ -3,33 +3,46 @@ version: '3.4'
 services:
   rabbitmq:
     image: "rabbitmq:3-management"
+    hostname: rabbitmq
     ports: 
       - "15672:15672"
       - "5672:5672"
+    volumes:
+      - ./rabbitmq-isolated.conf:/etc/rabbitmq/rabbitmq.config
 
   database:
     image: mysql:5.7
     ports:
-      - "32000:3306"
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - ./database:/docker-entrypoint-initdb.d/:ro
         
   generator:
-    build: ./generator
+    build: 
+      context: ./generator
+      network: host
     restart: on-failure
+    tty: true
     depends_on:
       - rabbitmq
+      - ingest
 
   ingest:
-    build: ./ingest
+    build: 
+      context: ./ingest
+      network: host
     restart: on-failure
+    tty: true
     depends_on:
       - rabbitmq
+      - database
 
   api:
-    build: ./api  
+    build:
+      context: ./api
+      network: host 
     restart: on-failure
     depends_on: 
       - database
