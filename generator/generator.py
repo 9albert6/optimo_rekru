@@ -3,8 +3,8 @@ import pika
 import time
 import socket
 
-#postpone connection to RabbitMq in order to avoid errors and restarting service
-def is_rabbitmq_reachable():
+#postpone connection to RabbitMq in order to avoiding errors and restarting services
+def is_rabbitmq_reachable() -> bool:
     pingcounter = 0
     isreachable = False
 
@@ -21,7 +21,7 @@ def is_rabbitmq_reachable():
     return isreachable
 
 
-def fib_generator(n):
+def fib_generator(n: int) -> int:
     if n == 0:
         return 0
     elif n == 1:
@@ -30,7 +30,7 @@ def fib_generator(n):
         return fib_generator(n - 1) + fib_generator(n - 2)
 
 
-def connect_and_generate():
+def connect_and_generate() -> None:
     if is_rabbitmq_reachable():
         print("Starting generating numbers")
         connection = pika.BlockingConnection(
@@ -44,7 +44,7 @@ def connect_and_generate():
             value = fib_generator(n)
             channel.basic_publish(exchange='', routing_key='fibbonaci', body=str(value))
             print(" [x] Fibbonaci number generated'")
-            time.sleep(2)
+            time.sleep(15)
             n += 1
         connection.close()
 
