@@ -1,13 +1,8 @@
 CREATE DATABASE fibbonaci;
 use fibbonaci;
 
-CREATE TABLE fibbonaci_numbers (
-    number_id INT,
-    title VARCHAR(255) NOT NULL
-);
+-- DROP TABLE IF EXISTS fibbonaci_numbers;
 
-INSERT INTO fibbonaci_numbers
-  (number_id, title)
-VALUES
-  ('1', 'blue'),
-  ('2', 'yellow');
+CREATE TABLE fibbonaci_numbers (
+    fib_number VARCHAR(20)
+);

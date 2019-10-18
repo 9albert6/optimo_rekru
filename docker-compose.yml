@@ -33,7 +33,7 @@ services:
     build: 
       context: ./ingest
       network: host
-    restart: on-failure
+    restart: always
     tty: true
     depends_on:
       - rabbitmq

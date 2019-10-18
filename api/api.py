@@ -16,8 +16,9 @@ def fibbonaci_numbers() -> List[Dict]:
     }
     connection = mysql.connector.connect(**config)
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM fibbonaci_numbers')
-    results = [{number_id: title} for (number_id, title) in cursor]
+    cursor.execute('SELECT * FROM fibbonaci_numbers;')
+    # results = [{fib_number} for (fib_number) in cursor]
+    results = [fib_number for (fib_number) in cursor]
     cursor.close()
     connection.close()
 
